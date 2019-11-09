@@ -24,13 +24,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_read","invoices_subresource","users_read"})
+     * @Groups({"invoices_read","invoices_subresource","users_read","customers_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"invoices_read","invoices_subresource","users_read"})
+     * @Groups({"invoices_read","invoices_subresource","users_read","customers_read"})
      * @Assert\NotBlank(message="L'email doit être renseigné")
      * @Assert\Email(message="Le format de l'adresse email n'est pas valide")
      */
@@ -50,14 +50,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read","invoices_subresource","users_read"})
+     * @Groups({"invoices_read","invoices_subresource","users_read","customers_read"})
      * @Assert\NotBlank(message="Le prenom doit être renseigné")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read","invoices_subresource","users_read"})
+     * @Groups({"invoices_read","invoices_subresource","users_read","customers_read"})
      * @Assert\NotBlank(message="Le nom doit être renseigné")
      */
     private $lastName;

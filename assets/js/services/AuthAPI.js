@@ -1,12 +1,13 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode"
+import { LOGIN_API } from "../config";
 
 /**
  * Requête HTTP d'authentification et stockage du token localStorage etaxios
  * @param {object} credentials 
  */
 function authenticate(credentials){
-       return axios.post("http://symreact/api/login_check",credentials)
+       return axios.post(LOGIN_API,credentials)
             .then(response=>response.data.token)
             .then(token=>{   
                 //je stocke le token dans mon localStorage
@@ -43,6 +44,8 @@ function setup(){
         const {exp:expiration} = jwtDecode(token);
         if(expiration * 1000 >new Date().getTime()){
             setAxiosToken(token);
+        }else{
+            logout();
         }
     }
 }
@@ -60,8 +63,10 @@ function isAuthenticated(){
         if(expiration * 1000 >new Date().getTime()){
             return true;
         }
+        logout();
         return false;
     }
+    logout();
     return false
 }
 export default{

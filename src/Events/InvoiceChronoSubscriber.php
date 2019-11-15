@@ -30,6 +30,7 @@ class InvoiceChronoSubscriber implements EventSubscriberInterface{
 
        if($invoice instanceof Invoice && $method==="POST"){
            $nextChrono = $this->repository->findNextChrono($this->security->getUser());
+           
            $invoice->setChrono($nextChrono);
 
            //TODO a déplacer dans une classe dédiée

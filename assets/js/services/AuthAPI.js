@@ -1,4 +1,4 @@
-import Axios from "axios";
+import axios from "axios";
 import jwtDecode from "jwt-decode"
 
 /**
@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode"
  * @param {object} credentials 
  */
 function authenticate(credentials){
-       return Axios.post("http://symreact/api/login_check",credentials)
+       return axios.post("http://symreact/api/login_check",credentials)
             .then(response=>response.data.token)
             .then(token=>{   
                 //je stocke le token dans mon localStorage
@@ -21,7 +21,7 @@ function authenticate(credentials){
  */
 function logout(){
     window.localStorage.removeItem("authToken");
-    delete Axios.defaults.headers["Authorization"];
+    delete axios.defaults.headers["Authorization"];
 }
 
 /**
@@ -29,7 +29,7 @@ function logout(){
  * @param {string} token lee token JWT
  */
 function setAxiosToken(token){
-    Axios.defaults.headers["Authorization"]="Bearer "+token;
+    axios.defaults.headers["Authorization"]="Bearer "+token;
 }
 
 /**
@@ -49,6 +49,7 @@ function setup(){
 
 /**
  * Permet de savoir si on est authentifié ou pas
+ * @returns boolean
  */
 function isAuthenticated(){
     //1. Voir si on a un token

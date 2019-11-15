@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
-import customersAPI from '../services/customersAPI';
+import CustomersAPI from '../services/CustomersAPI';
+import {Link} from 'react-router-dom'
 
 const CustomersPage = props => {
 
@@ -12,7 +13,7 @@ const CustomersPage = props => {
 
     const fetchCustomers = async () => {
         try {
-            const data = await customersAPI.findAll();
+            const data = await CustomersAPI.findAll();
             setCustomers(data);
         } catch (error) {
             console.log(error.response);
@@ -30,7 +31,7 @@ const CustomersPage = props => {
         setCustomers(customers.filter(customer=>customer.id !== id));
         //2. L'approche pessimiste
         try {
-            await customersAPI.delete(id);
+            await CustomersAPI.delete(id);
         } catch (error) {
             setCustomers(originalCustomers);
             console.log(error.response);
@@ -57,7 +58,10 @@ const CustomersPage = props => {
     //Pagination des données
     const paginatedCustomers = Pagination.getData(filteredCustomers,currentPage,itemsPerPage);
     return ( <>
+        <div className="mb-3 d-flex justify-content-between align-items-center">
         <h1>Liste des Clients</h1>
+        <Link to="/customers/new" className="btn btn-primary">Créer un client</Link> 
+        </div>
 
         <div className="form-group">
             <input type="text" onChange={handleSearch}

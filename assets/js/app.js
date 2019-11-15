@@ -17,6 +17,9 @@ import HomePage from './pages/HomePage';
 import InvoicesPage from './pages/InvoicesPage';
 import LoginPage from './pages/LoginPage';
 import AuthAPI from './services/AuthAPI';
+import CustomerPage from './pages/CustomerPage';
+import InvoicePage from './pages/InvoicePage';
+import RegisterPage from './pages/RegisterPage';
 
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.css');
@@ -43,7 +46,10 @@ const App = ()=>{
             <main className="container pt-5">
                 <Switch>
                     <Route path="/login" component={LoginPage} />
+                    <Route path="/register" component={RegisterPage} />
+                    <PrivateRoute  path="/invoices/:id" component={InvoicePage}  />
                     <PrivateRoute  path="/invoices" component={InvoicesPage} />
+                    <PrivateRoute  path="/customers/:id" component={CustomerPage}  />
                     <PrivateRoute  path="/customers" component={CustomersPage}  />
                     <Route path="/" component={HomePage} />
                 </Switch>

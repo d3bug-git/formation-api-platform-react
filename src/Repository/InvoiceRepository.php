@@ -28,7 +28,8 @@ class InvoiceRepository extends ServiceEntityRepository
                     ->orderBy("i.chrono","DESC")
                     ->setMaxResults(1)
                     ->getQuery()
-                    ->getSingleScalarResult()+1;
+                    ->getSingleScalarResult();
+                    
     }
     // /**
     //  * @return Invoice[] Returns an array of Invoice objects

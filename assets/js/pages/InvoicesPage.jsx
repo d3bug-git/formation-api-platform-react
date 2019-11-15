@@ -1,7 +1,8 @@
 import moment from "moment";
 import React, { useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
-import invoicesAPI from '../services/invoicesAPI';
+import InvoicesAPI from '../services/InvoicesAPI';
+import {Link} from "react-router-dom"
 
 const STATUS_CLASSES = {
     PAID:"success",
@@ -27,7 +28,7 @@ const InvoicesPage = ({}) => {
     //Recupération des invoices aupès de l'API
     const fetchInvoices = async () => {
         try {
-            const data =  await invoicesAPI.findAll();        
+            const data =  await InvoicesAPI.findAll();        
             setInvoices(data);
         } catch (error) {
            console.log(error.response);
@@ -51,7 +52,7 @@ const InvoicesPage = ({}) => {
 
         setInvoices(invoices.filter(invoice=>invoice.id !==id))
         try {
-            await invoicesAPI.delete(id);
+            await InvoicesAPI.delete(id);
         } catch (error) {
             console.log(error.response);
             setInvoices(originalInvoices);
@@ -74,7 +75,10 @@ const InvoicesPage = ({}) => {
     const paginatedInvoices = Pagination.getData(filteredInvoices,currentPage,itemsPerPage);
 
     return <>
+    <div className="d-flex justify-content-between align-items-center">
         <h1>Liste des factures</h1>
+        <Link className="btn btn-primary" to="/invoices/new">Créer une facture</Link>
+    </div>
 
         <div className="form-group">
             <input type="text" onChange={handleSearch}
@@ -106,7 +110,7 @@ const InvoicesPage = ({}) => {
                     </td>
                     <td className="text-center">{invoice.amount.toLocaleString()} €</td>
                     <td>
-                        <button className="btn btn-sm btn-primary">Editer</button>
+                        <Link to={"/invoices/"+invoice.id} className="btn btn-sm btn-primary">Editer</Link>
                         <button className="btn btn-sm btn-danger" onClick={()=>{handleDelete(invoice.id)}}>Supprimer</button>
                     </td>
                 </tr>)}

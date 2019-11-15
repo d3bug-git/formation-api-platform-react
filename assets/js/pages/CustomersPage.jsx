@@ -2,21 +2,26 @@ import React, { useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
 import CustomersAPI from '../services/CustomersAPI';
 import {Link} from 'react-router-dom'
+import { toast } from 'react-toastify';
+import TableLoader from '../components/loaders/TableLoader';
 
 const CustomersPage = props => {
 
     const [customers,setCustomers] = useState([]);
     const [currentPage,setCurrentPage] = useState(1);
     const [search,setSearch] = useState('');
+    const [isLoading,setIsLoading] = useState(true);
 
     const itemsPerPage = 10;
 
+    //Permet de recuperer les customers
     const fetchCustomers = async () => {
         try {
             const data = await CustomersAPI.findAll();
             setCustomers(data);
+            setIsLoading(false);
         } catch (error) {
-            console.log(error.response);
+            toast.error("Impossible de charger les clients")
         }
     }
 
@@ -32,9 +37,10 @@ const CustomersPage = props => {
         //2. L'approche pessimiste
         try {
             await CustomersAPI.delete(id);
+            toast.success("Le client a bien été supprimé")
         } catch (error) {
             setCustomers(originalCustomers);
-            console.log(error.response);
+            toast.success("la supprésiion a échouée");
         }
     }
 
@@ -83,11 +89,11 @@ const CustomersPage = props => {
                 </tr>
             </thead>
             
-            <tbody>
+            {!isLoading && (<tbody>
                 {paginatedCustomers.map(customer =><tr key={customer.id}>
                     <td>{customer.id}</td>
                     <td>
-                        <a href="#">{customer.firstName} {customer.lastName}</a>
+                        <Link to={"/customers/"+customer.id}>{customer.firstName} {customer.lastName}</Link>
                     </td>
                     <td>{customer.email}</td>
                     <td>{customer.company}</td>
@@ -105,9 +111,10 @@ const CustomersPage = props => {
                     </td>
                 </tr>)}
                 
-            </tbody>
+            </tbody>)}
 
         </table>
+        {isLoading && <TableLoader />}
         <Pagination currentPage={currentPage} 
         itemsPerPage={itemsPerPage} 
         length={filteredCustomers.length}

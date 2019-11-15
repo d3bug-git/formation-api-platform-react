@@ -1,9 +1,9 @@
-import React,{useState,useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import Field from '../components/forms/Field';
 import Select from '../components/forms/Select';
-import {Link} from 'react-router-dom'
 import CustomersAPI from '../services/CustomersAPI';
-import Axios from 'axios';
 import InvoicesAPI from '../services/InvoicesAPI';
 
 const InvoicePage = ({history,match}) => {
@@ -27,10 +27,10 @@ const InvoicePage = ({history,match}) => {
         try {
             const data = await CustomersAPI.findAll();
             setCustomers(data);
-            if(!invoice.customer)setInvoice({...invoice,customer:data[0].id}); 
+            //if(!invoice.customer)setInvoice({...invoice,customer:data[0].id}); 
         } catch (error) {
+            toast.error("impossible de charger les clients");
             history.replace("/invoices");
-            //TODO: flash notification erreur
         }
     } 
     //recuperation d'une facture
@@ -39,7 +39,7 @@ const InvoicePage = ({history,match}) => {
             const {amount,status,customer} = await InvoicesAPI.find(id);
             setInvoice({amount,status,customer:customer.id});
         } catch (error) {
-            console.log(error.response)
+            toast.error("impossible de charger la facture demandé");
             history.replace("/invoices");
             //TODO: flash notification erreur
         }
@@ -64,14 +64,15 @@ const handleChange = ({currentTarget}) =>{
 //gestion de la soumission du formulaire
 const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(invoice);
     try {
         if(editing){
             const response = await InvoicesAPI.update(id,invoice);
-         //TODO : flash notification success
+         toast.success("La facture a bien été modifiée");
+
         }else{
            const response = await InvoicesAPI.create(invoice);
-        //TODO : flash notification success
+           toast.success("La facture a bien été enregistrée");
         history.replace("/invoices")
         }
     } catch ({response}) {
@@ -83,7 +84,7 @@ const handleSubmit = async (event) => {
             });
 
             setErrors(apiErrors);
-            //TODO : Flash notification d'erreurs
+            toast.error("Des errors dans votre formulaire");
         }
     }
 

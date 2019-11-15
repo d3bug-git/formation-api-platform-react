@@ -20,6 +20,8 @@ import AuthAPI from './services/AuthAPI';
 import CustomerPage from './pages/CustomerPage';
 import InvoicePage from './pages/InvoicePage';
 import RegisterPage from './pages/RegisterPage';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.css');
@@ -56,6 +58,7 @@ const App = ()=>{
             </main>
 
         </HashRouter>
+        <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
     </AuthContext.Provider>
     );
 }

@@ -18,7 +18,7 @@ function authenticate(credentials){
             })
 }
 /**
- * D"connexion (suppresion du token du localstorage et sur Axios )
+ * Déconnexion (suppresion du token du localstorage et sur Axios )
  */
 function logout(){
     window.localStorage.removeItem("authToken");

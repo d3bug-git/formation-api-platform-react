@@ -27,7 +27,7 @@ const InvoicePage = ({history,match}) => {
         try {
             const data = await CustomersAPI.findAll();
             setCustomers(data);
-            //if(!invoice.customer)setInvoice({...invoice,customer:data[0].id}); 
+            if(!invoice.customer)setInvoice({...invoice,customer:data[0].id}); 
         } catch (error) {
             toast.error("impossible de charger les clients");
             history.replace("/invoices");
@@ -59,7 +59,7 @@ const InvoicePage = ({history,match}) => {
 //gestion des inputs dans le formulaire formulaire
 const handleChange = ({currentTarget}) =>{
     const {name,value} = currentTarget;
-    setInvoice({...invoice,[name]:value})
+    setInvoice({...invoice,[name]:value});
 }
 //gestion de la soumission du formulaire
 const handleSubmit = async (event) => {
